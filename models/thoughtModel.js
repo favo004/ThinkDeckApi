@@ -7,10 +7,12 @@ export const ThoughtSchema = new Schema({
         type: Schema.Types.ObjectId, ref: 'Thought'
     },
     userId: {
-        type: Schema.Types.ObjectId, ref: 'User'
+        type: Schema.Types.ObjectId, ref: 'User',
+        required: true
     },
     thought: {
-        type: String
+        type: String,
+        required: true
     },
     createdDate: {
         type: Date,
