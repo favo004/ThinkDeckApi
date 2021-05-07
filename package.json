@@ -5,17 +5,25 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel server.js",
+    "seed": "babel-node seed/seed.js",
+    "start": "babel-node server.js",
     "dev-start": "nodemon --exec babel-node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "dotenv": "^8.5.1",
     "express": "^4.17.1",
-    "mongodb": "^3.6.6",
-    "nodemon": "^2.0.7"
+    "express-winston": "^4.1.0",
+    "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.7",
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^2.0.7",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",

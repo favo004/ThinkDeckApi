@@ -1,0 +1,212 @@
+info: 05-05-2021 11:57:54: 	Server started and running on http://localhost:3040
+info: 05-05-2021 12:28:16: 	Server started and running on http://localhost:3040
+info: 05-05-2021 12:28:19: 	Server started and running on http://localhost:3040
+info: 05-05-2021 12:28:24: 	Server started and running on http://localhost:3040
+info: 05-05-2021 12:28:31: 	Server started and running on http://localhost:3040
+info: 2021-05-06 10:22:01: 	/api/users
+info: 2021-05-06 10:22:37: 	/api/users
+info: 2021-05-06 10:24:40: 	/api/users
+info: 2021-05-06 10:25:35: 	/api/users
+info: 2021-05-06 11:48:27: 	/api/users
+info: 2021-05-06 11:49:03: 	/api/users
+info: 2021-05-06 11:49:21: 	/api/users
+info: 2021-05-06 11:49:55: 	/api/users
+info: 2021-05-06 11:50:31: 	/api/users
+info: 2021-05-06 11:50:41: 	/api/users
+info: 2021-05-06 11:50:57: 	/api/users
+info: 2021-05-06 11:51:11: 	/api/users
+info: 2021-05-06 11:51:36: 	/api/users
+info: 2021-05-06 11:52:03: 	/api/users
+info: 2021-05-06 11:52:58: 	/api/users
+info: 2021-05-06 11:54:23: 	/api/users
+info: 2021-05-06 12:02:33: 	/api/users
+info: 2021-05-06 12:03:03: 	/api/users
+info: 2021-05-06 12:07:20: 	/api/users
+info: 2021-05-06 12:07:56: 	/api/users
+info: 2021-05-06 12:08:12: 	/api/users
+info: 2021-05-06 12:08:53: 	/api/users
+info: 2021-05-06 12:12:01: 	/api/users
+info: 2021-05-06 12:12:26: 	/api/users
+info: 2021-05-06 12:12:41: 	/api/users
+info: 2021-05-06 12:12:51: 	/api/users
+info: 2021-05-06 12:13:10: 	/api/users
+info: 2021-05-06 12:13:33: 	/api/users
+info: 2021-05-06 12:14:16: 	/api/users
+info: 2021-05-06 12:17:20: 	/api/users
+info: 2021-05-06 12:18:30: 	/api/users
+info: 2021-05-06 12:18:34: 	/api/users
+info: 2021-05-06 12:19:06: 	/api/users
+info: 2021-05-06 12:19:08: 	/api/users
+info: 2021-05-06 12:20:11: 	/api/users
+info: 2021-05-06 12:24:24: 	/api/users
+info: 2021-05-06 12:27:42: 	/api/users
+info: 2021-05-06 12:27:47: 	/api/users
+info: 2021-05-06 12:30:45: 	/api/users
+info: 2021-05-06 12:30:52: 	/api/users
+info: 2021-05-06 12:31:01: 	/api/users
+info: 2021-05-06 12:31:24: 	/api/users
+info: 2021-05-06 12:32:01: 	/api/users
+info: 2021-05-06 12:33:31: 	/api/users
+info: 2021-05-06 12:34:14: 	/api/users
+info: 2021-05-06 12:34:19: 	/api/users/60941a58de992743740df20b
+info: 2021-05-06 13:48:08: 	/api/users
+info: 2021-05-06 13:49:09: 	/api/users
+info: 2021-05-06 13:50:08: 	/api/users
+info: 2021-05-06 13:50:31: 	/api/users
+info: 2021-05-06 14:00:21: 	/api/users /api/users ::1
+info: 2021-05-06 14:01:41: 	undefined /api/users /api/users ::1
+info: 2021-05-06 14:10:49: 	/api/users GET ::1
+info: 2021-05-06 14:12:58: 	/api/users/60941a58de992743740df20b GET ::1
+info: 2021-05-06 14:13:07: 	/api/users/609431267190c562a4ffa003 GET ::1
+info: 2021-05-06 14:13:11: 	/api/users GET ::1
+info: 2021-05-06 14:13:16: 	/api/users/609431a479b3e9354803e2ec GET ::1
+error: 2021-05-07 07:56:19: 	Error seeding db: MongooseError: Operation `users.deleteMany()` buffering timed out after 10000ms
+error: 2021-05-07 07:56:55: 	Error seeding db: MongooseError: Operation `users.deleteMany()` buffering timed out after 10000ms
+error: 2021-05-07 07:57:20: 	Error seeding db: MongooseError: Operation `users.deleteMany()` buffering timed out after 10000ms
+error: 2021-05-07 08:01:40: 	Error seeding db: MongooseError: Operation `users.deleteMany()` buffering timed out after 10000ms
+info: 2021-05-07 08:05:36: 	/api/users GET ::1
+info: 2021-05-07 08:05:39: 	/api/users GET ::1
+info: 2021-05-07 08:05:44: 	/api/users POST ::1
+info: 2021-05-07 08:05:44: 	Created user id:60952d18529ea6211cb47109
+info: 2021-05-07 08:05:46: 	/api/users POST ::1
+error: 2021-05-07 08:05:46: 	Failed to create user. Error message: User validation failed: username: username already exists, email: email already exists
+info: 2021-05-07 08:07:18: 	/api/users GET ::1
+error: 2021-05-07 08:07:39: 	Error seeding db: MongooseError: Operation `users.deleteMany()` buffering timed out after 10000ms
+info: 2021-05-07 08:07:45: 	/api/users GET ::1
+info: 2021-05-07 08:07:49: 	/api/users GET ::1
+error: 2021-05-07 08:08:16: 	Error seeding db: MongooseError: Operation `users.deleteMany()` buffering timed out after 10000ms
+error: 2021-05-07 08:09:15: 	Error connecting to DB: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+error: 2021-05-07 08:09:25: 	Error seeding db: MongooseError: Operation `users.deleteMany()` buffering timed out after 10000ms
+info: 2021-05-07 08:10:41: 	/api/users GET ::1
+info: 2021-05-07 08:10:48: 	/api/users POST ::1
+info: 2021-05-07 08:10:48: 	Created user id:60952e4802755a3f800efeb6
+info: 2021-05-07 08:10:52: 	/api/users GET ::1
+error: 2021-05-07 08:19:28: 	Error seeding db: TypeError: connection.disconnect is not a function
+error: 2021-05-07 08:19:54: 	Error seeding db: TypeError: connection.disconnect is not a function
+error: 2021-05-07 08:22:26: 	Error seeding db: TypeError: connection.disconnect is not a function
+error: 2021-05-07 08:23:13: 	Error seeding db: TypeError: _mongoose.default.connection.disconnect is not a function
+error: 2021-05-07 08:24:18: 	Error seeding db: TypeError: connection.close is not a function
+info: 2021-05-07 08:26:06: 	/api/users GET ::1
+error: 2021-05-07 08:28:23: 	Error seeding db: TypeError: Cannot read property 'close' of undefined
+error: 2021-05-07 08:31:09: 	Error seeding db: TypeError: connection.close is not a function
+error: 2021-05-07 08:31:24: 	Error seeding db: TypeError: connection.close is not a function
+error: 2021-05-07 08:33:04: 	Error seeding db: TypeError: Cannot read property 'close' of undefined
+error: 2021-05-07 08:33:41: 	Error seeding db: TypeError: Cannot read property 'close' of undefined
+info: 2021-05-07 08:37:22: 	/api/users GET ::1
+error: 2021-05-07 08:42:23: 	Error seeding db: TypeError: (intermediate value).then is not a function
+info: 2021-05-07 08:46:40: 	/api/users GET ::1
+error: 2021-05-07 08:50:35: 	Error seeding db: MongoError: Topology is closed, please connect
+info: 2021-05-07 08:52:05: 	
+info: 2021-05-07 08:52:09: 	Seeding data
+info: 2021-05-07 08:52:15: 	Seeding data from seed.js
+info: 2021-05-07 08:52:21: 	Seeding data from seed.js
+info: 2021-05-07 08:52:21: 	Seeding data from seed.js
+info: 2021-05-07 08:52:25: 	Seeding data from seed.js
+info: 2021-05-07 08:52:25: 	Finished seeding data from seed.js
+info: 2021-05-07 08:53:08: 	/api/users GET ::1
+info: 2021-05-07 08:53:13: 	/api/users POST ::1
+info: 2021-05-07 08:53:13: 	Created user id:609538391329c027aca431d2
+info: 2021-05-07 08:53:15: 	/api/users GET ::1
+info: 2021-05-07 08:53:18: 	/api/users POST ::1
+error: 2021-05-07 08:53:18: 	Failed to create user. Error message: User validation failed: username: username already exists, email: email already exists
+info: 2021-05-07 09:25:27: 	/api/users POST ::1
+error: 2021-05-07 09:25:28: 	Failed to create user. Error message: ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 09:31:46: 	/api/users POST ::1
+error: 2021-05-07 09:31:46: 	Failed to create user. Error message: undefined
+info: 2021-05-07 09:35:52: 	/api/users POST ::1
+error: 2021-05-07 09:35:53: 	Failed to create user. Error message: object
+info: 2021-05-07 09:40:52: 	/api/users POST ::1
+info: 2021-05-07 09:41:31: 	/api/users POST ::1
+error: 2021-05-07 09:41:31: 	Failed to create user. Error message: ValidationError: User validation failed: username: username already exists, email: email already exists
+    at model.Document.invalidate (C:\Users\JFavo\Documents\Projects\PortfolioProjects\ThinkDeck\server\node_modules\mongoose\lib\document.js:2710:32)
+    at C:\Users\JFavo\Documents\Projects\PortfolioProjects\ThinkDeck\server\node_modules\mongoose\lib\document.js:2530:17
+    at C:\Users\JFavo\Documents\Projects\PortfolioProjects\ThinkDeck\server\node_modules\mongoose\lib\schematype.js:1256:9
+    at processTicksAndRejections (internal/process/task_queues.js:79:11)
+info: 2021-05-07 09:42:25: 	/api/users POST ::1
+info: 2021-05-07 09:42:40: 	/api/users POST ::1
+error: 2021-05-07 09:42:40: 	Failed to create user. Error message: ValidationError
+info: 2021-05-07 09:43:36: 	/api/users POST ::1
+error: 2021-05-07 09:43:36: 	Failed to create user. Error message: ValidationError
+info: 2021-05-07 09:53:45: 	/api/users POST ::1
+error: 2021-05-07 09:53:45: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 09:57:47: 	/api/users POST ::1
+error: 2021-05-07 09:57:47: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 09:58:19: 	/api/users POST ::1
+error: 2021-05-07 09:58:19: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 09:58:35: 	/api/users POST ::1
+error: 2021-05-07 09:58:35: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 09:58:53: 	/api/users POST ::1
+error: 2021-05-07 09:58:53: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 10:01:38: 	/api/users POST ::1
+error: 2021-05-07 10:01:38: 	Failed to create user. ValidationError: username: username already exists
+info: 2021-05-07 10:02:07: 	/api/users POST ::ffff:127.0.0.1
+error: 2021-05-07 10:02:07: 	Failed to create user. ValidationError: username: username already exists
+info: 2021-05-07 10:02:25: 	/api/users POST ::1
+error: 2021-05-07 10:02:25: 	Failed to create user. ValidationError: email: email already exists
+info: 2021-05-07 10:02:30: 	/api/users POST ::1
+error: 2021-05-07 10:02:30: 	Failed to create user. ValidationError: email: email already exists, username: username already exists
+info: 2021-05-07 10:03:48: 	/api/users POST ::1
+error: 2021-05-07 10:03:48: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 10:03:59: 	/api/users POST ::1
+error: 2021-05-07 10:03:59: 	Failed to create user. ValidationError: username: username already exists
+info: 2021-05-07 10:04:17: 	/api/users POST ::1
+error: 2021-05-07 10:04:17: 	Failed to create user. ValidationError: username: username already exists
+info: 2021-05-07 10:04:47: 	/api/users POST ::1
+error: 2021-05-07 10:04:47: 	Failed to create user. ValidationError: username: username already exists
+info: 2021-05-07 10:05:01: 	/api/users POST ::1
+error: 2021-05-07 10:05:01: 	Failed to create user. ValidationError: username: username already exists
+info: 2021-05-07 10:05:15: 	/api/users POST ::ffff:127.0.0.1
+error: 2021-05-07 10:05:15: 	Failed to create user. ValidationError: username: username already exists
+info: 2021-05-07 10:07:23: 	/api/users POST ::1
+error: 2021-05-07 10:07:23: 	Failed to create user. ValidationError: username: username already exists
+info: 2021-05-07 10:07:28: 	/api/users POST ::1
+error: 2021-05-07 10:07:28: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 10:07:48: 	/api/users POST ::1
+error: 2021-05-07 10:07:48: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 10:17:35: 	/api/users POST ::1
+error: 2021-05-07 10:17:35: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 10:18:12: 	/api/users PUT ::1
+info: 2021-05-07 10:19:15: 	/api/users GET ::1
+info: 2021-05-07 10:19:45: 	/api/users PUT ::1
+info: 2021-05-07 10:20:08: 	/api/users PUT ::1
+info: 2021-05-07 10:20:24: 	/api/users GET ::1
+info: 2021-05-07 10:20:52: 	/api/users PUT ::1
+info: 2021-05-07 10:20:58: 	/api/users GET ::1
+info: 2021-05-07 10:23:10: 	/api/users PUT ::1
+info: 2021-05-07 10:23:17: 	/api/users PUT ::1
+info: 2021-05-07 10:29:51: 	/api/users PUT ::1
+info: 2021-05-07 10:29:56: 	/api/users PUT ::1
+info: 2021-05-07 10:30:01: 	/api/users PUT ::1
+info: 2021-05-07 10:30:23: 	/api/users PUT ::1
+info: 2021-05-07 10:33:01: 	/api/users PUT ::1
+error: 2021-05-07 10:33:01: 	Failed to update user with id 609538391329c027aca431d2. Error message: Cannot do exclusion on field password in inclusion projection
+info: 2021-05-07 10:41:58: 	/api/users PUT ::1
+info: 2021-05-07 10:42:40: 	/api/users PUT ::1
+info: 2021-05-07 10:46:11: 	/api/users GET ::1
+info: 2021-05-07 10:46:23: 	/api/users/609431a479b3e9354803e2ec GET ::1
+info: 2021-05-07 10:46:32: 	/api/users/60953809d2da5553e822775c GET ::1
+info: 2021-05-07 10:46:45: 	/api/users POST ::1
+error: 2021-05-07 10:46:46: 	Failed to create user. ValidationError: email: email already exists
+info: 2021-05-07 10:47:05: 	/api/users POST ::1
+error: 2021-05-07 10:47:06: 	Failed to create user. ValidationError: email: email already exists
+info: 2021-05-07 10:47:32: 	/api/users POST ::1
+error: 2021-05-07 10:47:32: 	Failed to create user. ValidationError: email: email already exists
+info: 2021-05-07 10:47:37: 	/api/users POST ::1
+error: 2021-05-07 10:47:37: 	Failed to create user. ValidationError: email: email already exists
+info: 2021-05-07 10:48:09: 	/api/users POST ::1
+error: 2021-05-07 10:48:09: 	Failed to create user. ValidationError: username: username already exists, email: email already exists
+info: 2021-05-07 10:48:14: 	/api/users PUT ::1
+info: 2021-05-07 10:48:49: 	/api/users PUT ::1
+info: 2021-05-07 10:49:42: 	/api/users PUT ::1
+info: 2021-05-07 10:49:55: 	/api/users PUT ::1
+info: 2021-05-07 10:51:01: 	/api/users GET ::1
+info: 2021-05-07 10:51:38: 	/api/users GET ::1
+info: 2021-05-07 10:51:51: 	/api/users PUT ::1
+error: 2021-05-07 10:51:51: 	Failed to update user with id 609538391329c027aca431d2. Error message: Cast to string failed for value "Promise { <pending> }" at path "password"
+info: 2021-05-07 10:53:02: 	/api/users PUT ::1
+info: 2021-05-07 11:11:27: 	/api/users DELETE ::1
+info: 2021-05-07 11:12:22: 	/api/users DELETE ::1
+info: 2021-05-07 11:15:30: 	/api/users DELETE ::1
+info: 2021-05-07 11:16:11: 	/api/users DELETE ::1
+info: 2021-05-07 11:16:14: 	/api/users GET ::1
+info: 2021-05-07 11:16:19: 	/api/users DELETE ::1
