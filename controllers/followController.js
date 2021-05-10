@@ -57,7 +57,7 @@ export const addFollow = async (req, res) => {
 
 export const deleteFollow = async (req, res) => {
 
-    Follow.findByIdAndDelete({id: req.body.follow?._id})
+    Follow.findByIdAndDelete(req.body.follow?._id)
         .exec((err) => {
             if(err){
                 // Logging
