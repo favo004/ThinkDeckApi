@@ -61,7 +61,7 @@ UserSchema.pre('findOneAndDelete', async function() {
 
     Likes
         .deleteMany()
-        .where({ userId: this.getQuery()._id })
+        .where({ userId: this._id })
         .exec((err) => {
             if (err) {
                 logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting likes ${err}`);
