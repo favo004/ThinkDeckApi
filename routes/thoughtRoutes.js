@@ -1,10 +1,13 @@
 import express from 'express'
-import { addThought, deleteThought, getThoughts, updateThought } from '../controllers/thoughtController';
+import { addThought, deleteThought, getThoughtById, getThoughts, updateThought } from '../controllers/thoughtController';
 
 const router = express.Router();
 
 // Get thoughts
 router.get('/thoughts', getThoughts);
+
+// Get by id
+router.get('/thoughts/:id', getThoughtById);
 
 // Add thought
 router.post('/thoughts', addThought)
