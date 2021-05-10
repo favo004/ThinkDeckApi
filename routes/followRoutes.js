@@ -10,6 +10,6 @@ router.get('/follows', getFollows);
 router.post('/follows', addFollow);
 
 // Delete follow
-router.post('/follows', deleteFollow);
+router.delete('/follows', deleteFollow);
 
 export default router;
