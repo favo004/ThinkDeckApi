@@ -12,11 +12,11 @@ export const getThoughts = async (req, res) => {
 
     // If user id was passed to request we will get the thoughts by the author
     // Otherwise we check to see if a thoughtId was passed in which we will get the comments
-    // attached to the 
-    const query = req.body.userId ? 
-        {userId: req.body.userId} : 
-        req.body.thoughtId ?
-        {thoughtId: req.body.thoughtId} :
+    // attached to the thought
+    const query = req.body.user ? 
+        {user: req.body.user} : 
+        req.body.thought ?
+        {commentTo: req.body.thought} :
         undefined;
 
     if(!query)
@@ -46,7 +46,7 @@ export const getThoughts = async (req, res) => {
 // Returns thought by param id
 export const getThoughtById = async (req, res) => {
 
-    const id = req.param.id;
+    const id = req.params.id
 
     if(!id){
         logger.error(`No id was sent to request for getThoughtById`);
@@ -71,6 +71,18 @@ export const getThoughtById = async (req, res) => {
 
 // Add new thought
 export const addThought = async (req, res) => {
+
+    // Check for duplicate thought
+    const duplicate = await Thought.findOne()
+            .and([{user: req.body.thought.user}, 
+                {thought: req.body.thought.thought},
+                {commentTo: req.body.thought.commentTo}])
+            .exec();
+
+    if(duplicate){
+        logger.info(`addThought duplicate thought was attempted to be added. ${duplicate._id}`)
+        return res.status(400).json({error: "Thought already exists"});
+    }
 
     // Create new thought
     const newThought = new Thought(req.body.thought);
@@ -103,7 +115,7 @@ export const updateThought = async (req, res) => {
         .exec((err, thought) => {
             if(err){
                 // Logging
-                logger.error(`updateThought Failed to update thought with id ${id} - ${err}`)
+                logger.error(`updateThought Failed to update thought ${thought} - ${err}`)
 
                 return res
                     .status(400)
