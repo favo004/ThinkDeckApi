@@ -1,17 +1,17 @@
 export const thoughts = [
     {
-        "userId": null,
-        "thoughtId": null,
+        "user": null,
+        "commentTo": null,
         "thought": "Weeeeee I love cheeeese!"
     },
     {
-        "userId": null,
-        "thoughtId": null,
+        "user": null,
+        "commentTo": null,
         "thought": "This thought is for something else!"
     },
     {
-        "userId": null,
-        "thoughtId": null,
+        "user": null,
+        "commentTo": null,
         "thought": "I think this is fun! Think'n is fun!"
     }
 ];

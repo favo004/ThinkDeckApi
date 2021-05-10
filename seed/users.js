@@ -16,5 +16,17 @@ export const users = [
       "password": "$2a$08$wilSc/9mGDQYiDRGDjFjR.2tba3XM5227IBI5WDqIroLRtp.iRgue",
       "email": "marsh@email.com",
       "bio": ""
+    },
+    {
+      "username": "Tercher",
+      "password": "$2a$08$wilSc/9mGDQYiDRGDjFjR.2tba3XM5227IBI5WDqIroLRtp.iRgue",
+      "email": "turch@email.com",
+      "bio": "Some bs bio that is super duper long but within the limit."
+    },
+    {
+      "username": "Blarfing",
+      "password": "$2a$08$wilSc/9mGDQYiDRGDjFjR.2tba3XM5227IBI5WDqIroLRtp.iRgue",
+      "email": "blarf@email.com",
+      "bio": "Poooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooop."
     }
   ];

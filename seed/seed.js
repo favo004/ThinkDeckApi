@@ -36,12 +36,12 @@ const addData = async () => {
         User.create(users)
     ])
     .then(async (users) => {
-        thoughts[0].userId = users[0][0]._id;
-        thoughts[1].userId = users[0][1]._id;
-        thoughts[2].userId = users[0][0]._id;
+        thoughts[0].user = users[0][0];
+        thoughts[1].user = users[0][1];
+        thoughts[2].user = users[0][0];
         
         let t1 = await Thought.create(thoughts[0]);
-        thoughts[1].thoughtId = t1._id;
+        thoughts[1].commentTo = t1;
         let t2 = await Thought.create(thoughts[1]);
         let t3 = await Thought.create(thoughts[2]);
     })
