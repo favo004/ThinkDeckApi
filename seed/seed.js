@@ -3,18 +3,50 @@ import { connectDb } from '../db/db';
 import { logger } from '../utils/logger';
 import { UserSchema } from '../models/userModel';
 import { users } from './users';
+import { ThoughtSchema } from '../models/thoughtModel';
+import { thoughts } from './thoughts';
 
 require('dotenv').config()
 
 const User = mongoose.model('User', UserSchema);
+const Thought = mongoose.model('Thought', ThoughtSchema);
 
 export const seedDb = async () => {
-    Promise.all([
-        User.deleteMany({})
-    ]).then(() => {
-        seedData();
+    deleteCollections()
+    .then(() => {
+        addData();
     }).catch(err => {
         logger.error(`Error seeding db: ${err}`)
+    }) 
+}
+
+const deleteCollections = async () => {
+    return Promise.all([
+        User.deleteMany({}),
+        Thought.deleteMany({})
+    ]).catch(err => {
+        logger.error(`deleteTables() Error deleting current collections during seeding. ${err}`)
+    }) 
+}
+
+const addData = async () => {
+    logger.info(`seedData() Seeding data from seed.js`)
+
+    return Promise.all([
+        User.create(users)
+    ])
+    .then(async (users) => {
+        thoughts[0].userId = users[0][0]._id;
+        thoughts[1].userId = users[0][1]._id;
+        thoughts[2].userId = users[0][0]._id;
+        
+        let t1 = await Thought.create(thoughts[0]);
+        thoughts[1].thoughtId = t1._id;
+        let t2 = await Thought.create(thoughts[1]);
+        let t3 = await Thought.create(thoughts[2]);
+    })
+    .catch(err => {
+        logger.error(`seedData() Error adding data during seeding. ${err}`)
     }) 
 }
 
