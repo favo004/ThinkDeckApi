@@ -32,9 +32,11 @@ export const getThoughts = async (req, res) => {
             if(err){
 
                 // Logging
-                logger.error(`Failed to get thoughts from getThoughtsByUserId. ${err}`)
+                logger.error(`getThoughtsByUserId Failed to get thoughts - ${err}`)
 
-                return res.status(400).json({error: 'Error getting thoughts'});
+                return res
+                    .status(400)
+                    .json({error: 'Error getting thoughts'});
             }
 
             return res.json(thoughts);
@@ -56,9 +58,11 @@ export const getThoughtById = async (req, res) => {
             if(err){
 
                 // Logging
-                logger.error(`Failed to get thought with id ${id} from getThoughtById. ${err}`)
+                logger.error(`getThoughtById Failed to get thought with id ${id} - ${err}`)
 
-                return res.status(400).json({error: 'Error getting thought'});
+                return res
+                    .status(400)
+                    .json({error: 'Error getting thought'});
             }
 
             return res.json(thought);
@@ -68,6 +72,63 @@ export const getThoughtById = async (req, res) => {
 // Add new thought
 export const addThought = async (req, res) => {
 
-    
+    // Create new thought
+    const newThought = new Thought(req.body.thought);
+
+    // Save new user to db
+    newThought.save((err, user) => {
+        if(err){
+            // Logging
+            logger.error(`Failed to create thought. ${err}`);
+
+            return res
+                .status(400)
+                .json({error: `Failed to create thought.`})
+        }
+
+        // Logging
+        logger.info(`Created user id:${user.id}`)
+
+        // Remove password before sending data
+        user.password = undefined;
+        return res.json(user);
+    })
+}
+
+// Update thought
+export const updateThought = async (req, res) => {
+
+    Thought.findByIdAndUpdate({_id: req.body.thought?._id}, req.body.thought)
+        .setOptions({new: true})
+        .exec((err, thought) => {
+            if(err){
+                // Logging
+                logger.error(`updateThought Failed to update thought with id ${id} - ${err}`)
+
+                return res
+                    .status(400)
+                    .json({error: `Failed to update thought.`})
+            }
+
+            return res.json(thought);
+        })
+}
+
+// Delete thought
+export const deleteThought = async (req, res) => {
+
+    Thought.findOneAndDelete({_id: req.body.thought?._id})
+        .exec((err) => {
+            if(err){
+                // Logging
+                logger.error(`deleteThought Failed to delete thought ${err}`)
+
+                return res
+                    .status(400)
+                    .json({error: 'Failed to delete user'})
+            }
+
+            return res.status(204).send();
+        })
 }
 
