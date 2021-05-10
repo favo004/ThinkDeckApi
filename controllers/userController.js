@@ -52,9 +52,6 @@ export const createNewUser = async (req, res) => {
     // Create new user
     const newUser = new User(req.body.user);
 
-    // Encrypt password before storing in db
-    newUser.password = await encrpytPassword(req.body.user.password);
-
     // Save new user to db
     newUser.save((err, user) => {
         if(err){
@@ -82,7 +79,7 @@ export const createNewUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
 
-    // If new password exists we exncrypt it before saving
+    // Encrypt new password if exists
     if(req.body.user?.password){
         req.body.user.password = await encrpytPassword(req.body.user.password);
     }
