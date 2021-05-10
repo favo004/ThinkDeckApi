@@ -7,6 +7,7 @@ import { logger } from './utils/logger';
 
 import userRoutes from './routes/userRoutes';
 import thoughtRoutes from './routes/thoughtRoutes';
+import followRoutes from './routes/followRoutes';
 
 require('dotenv').config()
 
@@ -14,7 +15,7 @@ const app = express();
 const port = process.env.PORT || 3002;
 const host = process.env.HOST || 'localhost'
 
-const seeding = true;
+const seeding = false;
 
 app.use(cors());
 app.use(express.json());
@@ -41,8 +42,9 @@ app.use((err, req, res, next) => {
 })
 
 // Add api routes
-app.use('/api', userRoutes)
-app.use('/api', thoughtRoutes)
+app.use('/api', userRoutes);
+app.use('/api', thoughtRoutes);
+app.use('/api', followRoutes);
 
 connectDb().then(async() => {
     if(seeding){
