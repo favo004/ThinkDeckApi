@@ -3,10 +3,10 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const FollowSchema = new Schema({
-    userId: {
+    user: {
         type: Schema.Types.ObjectId, ref: 'User'
     },
-    followId: {
+    follow: {
         type: Schema.Types.ObjectId, ref: 'User'
     },
     createdDate:{
