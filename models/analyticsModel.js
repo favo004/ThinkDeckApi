@@ -3,28 +3,35 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const LikeSchema = new Schema({
-    userId:{
-        type: Schema.Types.ObjectId, ref: 'User'
+    user:{
+        type: Schema.Types.ObjectId, ref: 'User',
+        required: true
     },
-    thoughtId:{
-        type: Schema.Types.ObjectId, ref: 'Thought'
+    thought:{
+        type: Schema.Types.ObjectId, ref: 'Thought',
+        required: true
     }
 })
 
 export const DislikeSchema = new Schema({
-    userId:{
-        type: Schema.Types.ObjectId, ref: 'User'
+    user:{
+        type: Schema.Types.ObjectId, ref: 'User',
+        required: true
     },
-    thoughtId:{
-        type: Schema.Types.ObjectId, ref: 'Thought'
+    thought:{
+        type: Schema.Types.ObjectId, ref: 'Thought',
+        required: true
     }
 })
 
 export const HighlightSchema = new Schema({
-    userId:{
-        type: Schema.Types.ObjectId, ref: 'User'
+    user:{
+        type: Schema.Types.ObjectId, ref: 'User',
+        required: true
     },
-    thoughtId:{
-        type: Schema.Types.ObjectId, ref: 'Thought'
+    thought:{
+        type: Schema.Types.ObjectId, ref: 'Thought',
+        required: true
     }
 })
+
