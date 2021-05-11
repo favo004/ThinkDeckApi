@@ -4,13 +4,16 @@ const Schema = mongoose.Schema;
 
 export const MessageSchema = new Schema({
     sentTo: {
-        type: Schema.Types.ObjectId, ref: 'User'
+        type: Schema.Types.ObjectId, ref: 'User',
+        required: true
     },
     sentFrom: {
-        type: Schema.Types.ObjectId, ref: 'User'
+        type: Schema.Types.ObjectId, ref: 'User',
+        required: true
     },
     message: {
-        type: String
+        type: String,
+        required: true
     },
     createdDate: {
         type: Date,
@@ -19,4 +22,15 @@ export const MessageSchema = new Schema({
     editedDate: {
         type: Date
     }
+})
+
+MessageSchema.pre('findOneAndUpdate', async function() {
+    const doc = await this.model.findOne(this.getFilter());
+    doc.editedDate = new Date();
+    console.log(doc)
+    doc.save((err) => {
+        if(err){
+            logger.error(`MessageSchema.post('findOneAndUpdate') Error setting editedDate for message ${this.getFilter()}`);
+        }
+    })
 })
