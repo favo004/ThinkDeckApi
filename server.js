@@ -8,6 +8,8 @@ import { logger } from './utils/logger';
 import userRoutes from './routes/userRoutes';
 import thoughtRoutes from './routes/thoughtRoutes';
 import followRoutes from './routes/followRoutes';
+import analyticsRoutes from './routes/analyticsRoutes';
+import messageRoutes from './routes/messageRoutes';
 
 require('dotenv').config()
 
@@ -42,9 +44,11 @@ app.use((err, req, res, next) => {
 })
 
 // Add api routes
-app.use('/api', userRoutes);
-app.use('/api', thoughtRoutes);
-app.use('/api', followRoutes);
+app.use(userRoutes);
+app.use(thoughtRoutes);
+app.use(followRoutes);
+app.use(analyticsRoutes);
+app.use(messageRoutes);
 
 connectDb().then(async() => {
     if(seeding){
