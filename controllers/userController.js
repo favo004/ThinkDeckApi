@@ -105,13 +105,21 @@ export const updateUser = async (req, res) => {
         })
 }
 
-export const deleteUser = (req, res) => {
+export const deleteUser = async (req, res) => {
+
+    // Find if user exists before attempting to delete
+    const exists = await User.findOne({_id: req.body.user?._id});
+    
+    if(!exists){
+        logger.error(`deleteUser() User doesn't exist at id ${req.body.user?._id}`);
+        return res.status(400).json({error: "User not found"});
+    }
 
     // Delete user by id
-    User.findByIdAndDelete(req.body.user._id, (err) => {
+    User.findByIdAndDelete(req.body.user?._id).exec((err) => {
         if(err){
             // Logging
-            logger.error(`Failed to delete user with id ${req.body.user.id}. Error message: ${err.message}`)
+            logger.error(`deleteUser() Failed to delete user with id ${req.body.user?.id}. Error message: ${err.message}`)
 
             return res.status(400).json({error: "Failed to delete user"});
         }
