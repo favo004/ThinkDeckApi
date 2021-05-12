@@ -75,7 +75,7 @@ export const addThought = async (req, res) => {
     // Check for duplicate thought
     const duplicate = await Thought.findOne()
             .and([{user: req.body.thought.user}, 
-                {thought: req.body.thought.thought},
+                {thought: req.body.thought.thoughtBody},
                 {commentTo: req.body.thought.commentTo}])
             .exec();
 
@@ -129,11 +129,18 @@ export const updateThought = async (req, res) => {
 // Delete thought
 export const deleteThought = async (req, res) => {
 
+    const exists = await Thought.findOne({_id: req.body.thought?._id});
+    console.log(exists)
+    if(!exists){
+        logger.error(`deleteThought() Thought doesn't exist at id ${req.body.thought?._id}`);
+        return res.status(400).json({error: "Thought not found"});
+    }
+
     Thought.findOneAndDelete({_id: req.body.thought?._id})
         .exec((err) => {
             if(err){
                 // Logging
-                logger.error(`deleteThought Failed to delete thought ${err}`)
+                logger.error(`deleteThought() Failed to delete thought ${err}`)
 
                 return res
                     .status(400)
