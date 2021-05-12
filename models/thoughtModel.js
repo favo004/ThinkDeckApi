@@ -17,7 +17,7 @@ export const ThoughtSchema = new Schema({
         type: Schema.Types.ObjectId, ref: 'User',
         required: true
     },
-    thought: {
+    thoughtBody: {
         type: String,
         required: true
     },
@@ -44,9 +44,24 @@ ThoughtSchema.post('findOneAndUpdate', async function() {
 })
 
 ThoughtSchema.pre('findOneAndDelete', async function() {
-    await Likes.deleteMany({thoughtId: this._id}).exec();
-    await Dislikes.deleteMany({thoughtId: this._id}).exec();
-    await Highlights.deleteMany({thoughtId: this._id}).exec();
+    Likes.deleteMany({thoughtId: this._id}).exec((err) => {
+        if (err) {
+            logger.error(`ThoughtSchema.pre('findOneAndDelete') Error on deleting likes ${err}`);
+            throw new Error("Failed to delete likes of thought being removed");
+        }
+    });
+    Dislikes.deleteMany({thoughtId: this._id}).exec((err) => {
+        if (err) {
+            logger.error(`ThoughtSchema.pre('findOneAndDelete') Error on deleting dislikes ${err}`);
+            throw new Error("Failed to delete dislikes of thought being removed");
+        }
+    });
+    Highlights.deleteMany({thoughtId: this._id}).exec((err) => {
+        if (err) {
+            logger.error(`ThoughtSchema.pre('findOneAndDelete') Error on deleting highlights ${err}`);
+            throw new Error("Failed to delete highlights of thought being removed");
+        }
+    });
 
     // Logging
     logger.info(`ThoughtSchema pre removed likes, dislikes, and highlights from deleted thought ${this._id}`)
