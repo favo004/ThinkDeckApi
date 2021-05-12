@@ -56,64 +56,67 @@ UserSchema.pre('save', async function() {
     }
 })
 
-UserSchema.pre('findOneAndDelete', async function() {
+UserSchema.pre('findOneAndDelete', function() {
     // Before we remove user we must remove all of their thoughts, following/followers, likes/dislikes and messages
 
-    Likes
-        .deleteMany()
-        .where({ userId: this._id })
-        .exec((err) => {
-            if (err) {
-                logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting likes ${err}`);
-                throw new Error("Failed to delete likes of user being removed");
-            }
-        });
-    Dislikes
-        .deleteMany()
-        .where({ userId: this._id })
-        .exec((err) => {
-            if (err)
-                logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting dislikes ${err}`);
-                throw new Error("Failed to delete dislikes of user being removed");
-        });
-    Highlights
-        .deleteMany()
-        .where({userId: this._id})
-        .exec((err) => 
-        {
-            if(err) 
-                logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting highlights ${err}`);
-                throw new Error("Failed to delete highlights of user being removed");
-        });
-    Follows
-        .deleteMany()
-        .or([{userId: this._id}, {followId: this._id}])
-        .exec((err) => 
-        {
-            if(err) 
-                logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting follows ${err}`);
-                throw new Error("Failed to delete follows of user being removed");
-        });
-    Thoughts
-        .deleteMany()
-        .where({userId: this._id})
-        .exec((err) => 
-        {
-            if(err) 
-                logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting thoughts ${err}`);
-                throw new Error("Failed to delete thoughts of user being removed");
-        });
-    Messages
-        .deleteMany()
-        .or({sentTo: this._id}, {sentFrom: this._id})
-        .exec((err) => 
-        {
-            if(err) 
-                logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting messages ${err}`);
-                throw new Error("Failed to delete messages of user being removed");
-        });
+    Promise.all([
+        Likes
+            .deleteMany()
+            .where({ userId: this._id })
+            .exec((err) => {
+                if (err) {
+                    logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting likes ${err}`);
+                    throw new Error("Failed to delete likes of user being removed");
+                }
+            }),
+        Dislikes
+            .deleteMany()
+            .where({ userId: this._id })
+            .exec((err) => {
+                if (err) {
+                    logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting dislikes ${err}`);
+                    throw new Error("Failed to delete dislikes of user being removed");
+                }
+            }),
+        Highlights
+            .deleteMany()
+            .where({ userId: this._id })
+            .exec((err) => {
+                if (err) {
+                    logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting highlights ${err}`);
+                    throw new Error("Failed to delete highlights of user being removed");
+                }
+            }),
+        Follows
+            .deleteMany()
+            .or([{ userId: this._id }, { followId: this._id }])
+            .exec((err) => {
+                if (err) {
+                    logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting follows ${err}`);
+                    throw new Error("Failed to delete follows of user being removed");
+                }
+            }),
+        Thoughts
+            .deleteMany()
+            .where({ userId: this._id })
+            .exec((err) => {
+                if (err) {
+                    logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting thoughts ${err}`);
+                    throw new Error("Failed to delete thoughts of user being removed");
+                }
+            }),
+        Messages
+            .deleteMany()
+            .or({ sentTo: this._id }, { sentFrom: this._id })
+            .exec((err) => {
+                if (err) {
+                    logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting messages ${err}`);
+                    throw new Error("Failed to delete messages of user being removed");
+                }
+            }),
 
-    logger.info(`UserSchema.pre('findOneAndDelete') called successfully`)
+        logger.info(`UserSchema.pre('findOneAndDelete') called successfully`)
+    ])
 })
 
 UserSchema.methods.comparePassword = (password, hashPassword) => {
