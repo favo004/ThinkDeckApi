@@ -15,8 +15,8 @@ export const getThoughts = async (req, res) => {
     // attached to the thought
     const query = req.body.user ? 
         {user: req.body.user} : 
-        req.body.thought ?
-        {commentTo: req.body.thought} :
+        req.body.commentTo ?
+        {commentTo: req.body.commentTo} :
         undefined;
 
     if(!query)
@@ -25,7 +25,8 @@ export const getThoughts = async (req, res) => {
         return res.status(400).json({error: 'No query data was sent to the server'});
     }
 
-    Thought.find(query)
+    Thought.find()
+        .where(query)
         .skip(page * limit)
         .limit(limit)
         .exec((err, thoughts) => {
@@ -130,7 +131,7 @@ export const updateThought = async (req, res) => {
 export const deleteThought = async (req, res) => {
 
     const exists = await Thought.findOne({_id: req.body.thought?._id});
-    console.log(exists)
+
     if(!exists){
         logger.error(`deleteThought() Thought doesn't exist at id ${req.body.thought?._id}`);
         return res.status(400).json({error: "Thought not found"});

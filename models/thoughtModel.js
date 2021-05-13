@@ -35,7 +35,7 @@ ThoughtSchema.post('findOneAndUpdate', async function() {
 
     const doc = await this.model.findOne(this.getFilter());
     doc.editedDate = new Date();
-    console.log(doc)
+
     doc.save((err) => {
         if(err){
             logger.error(`ThoughtSchema.post('findOneAndUpdate') Error setting editedDate for thought ${this.getFilter()}`);
@@ -44,24 +44,30 @@ ThoughtSchema.post('findOneAndUpdate', async function() {
 })
 
 ThoughtSchema.pre('findOneAndDelete', async function() {
-    Likes.deleteMany({thoughtId: this._id}).exec((err) => {
-        if (err) {
-            logger.error(`ThoughtSchema.pre('findOneAndDelete') Error on deleting likes ${err}`);
-            throw new Error("Failed to delete likes of thought being removed");
-        }
-    });
-    Dislikes.deleteMany({thoughtId: this._id}).exec((err) => {
-        if (err) {
-            logger.error(`ThoughtSchema.pre('findOneAndDelete') Error on deleting dislikes ${err}`);
-            throw new Error("Failed to delete dislikes of thought being removed");
-        }
-    });
-    Highlights.deleteMany({thoughtId: this._id}).exec((err) => {
-        if (err) {
-            logger.error(`ThoughtSchema.pre('findOneAndDelete') Error on deleting highlights ${err}`);
-            throw new Error("Failed to delete highlights of thought being removed");
-        }
-    });
+    Likes
+        .deleteMany({thought: this._id})
+        .exec((err) => {
+            if (err) {
+                logger.error(`ThoughtSchema.pre('findOneAndDelete') Error on deleting likes ${err}`);
+                throw new Error("Failed to delete likes of thought being removed");
+            }
+        });
+    Dislikes
+        .deleteMany({thought: this._id})
+        .exec((err) => {
+            if (err) {
+                logger.error(`ThoughtSchema.pre('findOneAndDelete') Error on deleting dislikes ${err}`);
+                throw new Error("Failed to delete dislikes of thought being removed");
+            }
+        });
+    Highlights
+        .deleteMany({thought: this._id})
+        .exec((err) => {
+            if (err) {
+                logger.error(`ThoughtSchema.pre('findOneAndDelete') Error on deleting highlights ${err}`);
+                throw new Error("Failed to delete highlights of thought being removed");
+            }
+        });
 
     // Logging
     logger.info(`ThoughtSchema pre removed likes, dislikes, and highlights from deleted thought ${this._id}`)
