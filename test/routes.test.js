@@ -1,10 +1,12 @@
 import express from 'express';
 import userRoutes from '../routes/userRoutes';
 import thoughtRoutes from '../routes/thoughtRoutes';
+import analyticsRoutes from '../routes/analyticsRoutes';
 
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 import request from 'supertest';
-import { connectDb, seedTestData } from './db';
+import { connectDb, seedTestData, testUsers, testThoughts, testLikes, testDislikes, testHighlights } from './db';
+import { ObjectId } from 'bson';
 
 require('dotenv').config()
 
@@ -17,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(userRoutes);
 app.use(thoughtRoutes);
+app.use(analyticsRoutes);
 
 before(async () => {
     await connectDb();
@@ -132,6 +135,136 @@ describe('User routes', () => {
 
             expect(body.error).to.not.be.undefined;
             expect(body.error).to.equal('User not found');
+        })
+    })
+})
+
+describe('Thought routes', () => {
+
+    describe('GET /thoughts', () => {
+        it('Returns thoughts by user - Success', async () => {
+            
+            const { body } = await request(app)
+                .get('/thoughts')
+                .send({user: testUsers[0]})
+
+            expect(body.error).to.be.undefined;
+            expect(body).to.be.an('array');
+            expect(body).to.have.length(2);
+        })
+    })
+
+    describe('GET /thoughts', () => {
+        it('Returns comments for thought - Success', async () => {
+            const { body } = await request(app)
+            .get('/thoughts')
+            .send({commentTo: testThoughts[0]})
+
+            expect(body.error).to.be.undefined;
+            expect(body).to.be.an('array');
+            expect(body).to.have.length(1);
+        })
+    })
+
+    const thought = {
+        "thought": {
+            "_id": ObjectId(),
+            "user": testUsers[1],
+            "thoughtBody": "Some thought for testing!"
+        }
+    }
+
+    describe('POST /thoughts', () => {
+        it('Adds new thought - Success', async () => {
+            
+            const { body } = await request(app)
+                .post('/thoughts')
+                .send(thought)
+
+            expect(body.error).to.be.undefined;
+            expect(body.thoughtBody).to.equal("Some thought for testing!");
+            expect(body.user).to.equal(testUsers[1]._id.toString());
+        })
+    })
+
+    describe('PUT /thoughts', () => {
+        it('Updates thought - Success', async () => {
+
+            thought.thought.thoughtBody = "Holy moley this changed!";
+
+            const { body } = await request(app)
+                .put('/thoughts')
+                .send(thought)
+
+            expect(body.error).to.be.undefined;
+            expect(body.thoughtBody).to.equal("Holy moley this changed!");
+            expect(body.user).to.equal(testUsers[1]._id.toString());
+        })
+    })
+
+    describe('DELETE /thoughts', () => {
+        it('Deletes thought - Success', async () => {
+
+            const { body } = await request(app)
+                .delete('/thoughts')
+                .send(thought)
+
+            expect(body.error).to.be.undefined;
+            expect(body).to.be.empty;
+        })
+    })
+
+    describe('DELETE /thoughts', () => {
+        it('Deletes thought - Fail due to not existing', async () => {
+
+            const { body } = await request(app)
+                .delete('/thoughts')
+                .send(thought)
+
+            expect(body.error).to.not.be.undefined;
+            expect(body.error).to.equal("Thought not found");
+        })
+    })
+})
+
+describe('Analytics routes', () => {
+
+    describe('GET /likes', () => {
+        it('Return likes for thought - Success', async () => {
+
+            const { body } = await request(app)
+                .get('/likes')
+                .send({thought: testThoughts[0]})
+                .expect(200);
+            
+            expect(body.error).to.be.undefined;
+            expect(body).to.be.an('array').with.length(3);
+        })
+    })
+
+    describe('GET /dislikes', () => {
+        it('Return dislikes for thought - Success', async () => {
+
+            const { body } = await request(app)
+                .get('/dislikes')
+                .send({thought: testThoughts[1]})
+                .expect(200);
+            
+            expect(body.error).to.be.undefined;
+            expect(body).to.be.an('array').with.length(2);
+        })
+    })
+
+    describe('Get /highlights', () => {
+        it('Return highlights for thought - Success', async () => {
+
+            const { body } = await request(app)
+                .get('/highlights')
+                .send({thought: testThoughts[0]})
+                .expect(200);
+            
+            expect(body.error).to.be.undefined;
+            expect(body).to.be.an('array').with.length(2);
         })
     })
 })
