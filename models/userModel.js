@@ -62,7 +62,7 @@ UserSchema.pre('findOneAndDelete', function() {
     Promise.all([
         Likes
             .deleteMany()
-            .where({ userId: this._id })
+            .where({ user: this._id })
             .exec((err) => {
                 if (err) {
                     logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting likes ${err}`);
@@ -71,7 +71,7 @@ UserSchema.pre('findOneAndDelete', function() {
             }),
         Dislikes
             .deleteMany()
-            .where({ userId: this._id })
+            .where({ user: this._id })
             .exec((err) => {
                 if (err) {
                     logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting dislikes ${err}`);
@@ -80,7 +80,7 @@ UserSchema.pre('findOneAndDelete', function() {
             }),
         Highlights
             .deleteMany()
-            .where({ userId: this._id })
+            .where({ user: this._id })
             .exec((err) => {
                 if (err) {
                     logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting highlights ${err}`);
@@ -89,7 +89,7 @@ UserSchema.pre('findOneAndDelete', function() {
             }),
         Follows
             .deleteMany()
-            .or([{ userId: this._id }, { followId: this._id }])
+            .or([{ user: this._id }, { follow: this._id }])
             .exec((err) => {
                 if (err) {
                     logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting follows ${err}`);
@@ -98,7 +98,7 @@ UserSchema.pre('findOneAndDelete', function() {
             }),
         Thoughts
             .deleteMany()
-            .where({ userId: this._id })
+            .where({ user: this._id })
             .exec((err) => {
                 if (err) {
                     logger.error(`UserSchema.pre('findOneAndDelete') Error on deleting thoughts ${err}`);
