@@ -4,10 +4,10 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { UserSchema } from '../models/userModel';
 import { ThoughtSchema } from '../models/thoughtModel';
 import { DislikeSchema, HighlightSchema, LikeSchema } from '../models/analyticsModel';
+import { FollowSchema } from '../models/followModel';
+import { MessageSchema } from '../models/messageModel';
 
 const mongoServer = new MongoMemoryServer();
-
-
 
 export const connectDb = async () => {
     
@@ -120,19 +120,63 @@ export const testHighlights = [
     }
 ]
 
+export const testMessages = [
+    {
+        "_id": ObjectId(),
+        "sentTo": testUsers[0],
+        "sentFrom": testUsers[1],
+        "messageBody": "Oh hey friend!"
+    },
+    {
+        "_id": ObjectId(),
+        "sentTo": testUsers[1],
+        "sentFrom": testUsers[0],
+        "messageBody": "Hello mofo!"
+    },
+    {
+        "_id": ObjectId(),
+        "sentTo": testUsers[0],
+        "sentFrom": testUsers[2],
+        "messageBody": "You're a bum!"
+    }
+]
+
+export const testFollows = [
+
+    {
+        "_id": ObjectId(),
+        "user": testUsers[0],
+        "follow": testUsers[2]
+    },
+    {
+        "_id": ObjectId(),
+        "user": testUsers[1],
+        "follow": testUsers[2]
+    },
+    {
+        "_id": ObjectId(),
+        "user": testUsers[2],
+        "follow": testUsers[0]
+    }
+]
+
 export const seedTestData = async () => {
     const User = mongoose.model('User', UserSchema);
     const Thought = mongoose.model('Thought', ThoughtSchema);
     const Like = mongoose.model('Like', LikeSchema);
     const Dislike = mongoose.model('Dislike', DislikeSchema);
     const Highlight = mongoose.model('Highlight', HighlightSchema);
+    const Follow = mongoose.model('Follow', FollowSchema);
+    const Message = mongoose.model('Message', MessageSchema)
 
     await Promise.all([
         User.deleteMany({}),
         Thought.deleteMany({}),
         Like.deleteMany({}),
         Dislike.deleteMany({}),
-        Highlight.deleteMany({})
+        Highlight.deleteMany({}),
+        Follow.deleteMany({}),
+        Message.deleteMany({})
     ])
 
     // Set thought as comment
@@ -143,7 +187,8 @@ export const seedTestData = async () => {
         Thought.create(testThoughts),
         Like.create(testLikes),
         Dislike.create(testDislikes),
-        Highlight.create(testHighlights)
+        Highlight.create(testHighlights),
+        Follow.create(testFollows),
+        Message.create(testMessages)
     ])
-
 }
