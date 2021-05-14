@@ -126,26 +126,27 @@ export const getHighlights = (req, res) => {
         })
 }
 
-export const addLike = (req, res) => {
+export const addLike = async (req, res) => {
 
     const thought = req.body.thought;
     const user = req.body.user;
 
     if(!thought){
         logger.error(`addLike() No thought was passed with the request.`)
-        return res.status(400).json({error: 'Failed to add like.'})
+        return res.status(400).json({error: 'Failed to add like'})
     }
 
     if(!user){
         logger.error(`addLike() No user was passed with the request.`)
-        return res.status(400).json({error: 'Failed to add like.'})
+        return res.status(400).json({error: 'Failed to add like'})
     }
 
     // Check for duplicate
-    const duplicate = Likes.findOne().and([{thought}, {user}]).exec();
+    const duplicate = await Likes.findOne().and([{thought}, {user}]).exec();
+
     if(duplicate){
         logger.error(`addLike() Like already exists for ${thought} ${user}`)
-        return res.status(400).json({error: 'Like already exists.'})
+        return res.status(400).json({error: 'Like already exists'})
     }
 
     const like = new Likes(req.body);
@@ -160,33 +161,33 @@ export const addLike = (req, res) => {
 
 }
 
-export const addDislike = (req, res) => {
+export const addDislike = async (req, res) => {
 
     const thought = req.body.thought;
     const user = req.body.user;
 
     if(!thought){
         logger.error(`addDislike() No thought was passed with the request.`)
-        return res.status(400).json({error: 'Failed to add dislike.'})
+        return res.status(400).json({error: 'Failed to add dislike'})
     }
 
     if(!user){
         logger.error(`addDislike() No user was passed with the request.`)
-        return res.status(400).json({error: 'Failed to add dislike.'})
+        return res.status(400).json({error: 'Failed to add dislike'})
     }
 
     // Check for duplicate
-    const duplicate = Dislikes.findOne().and([{thought}, {user}]).exec();
+    const duplicate = await Dislikes.findOne().and([{thought}, {user}]).exec();
     if(duplicate){
         logger.error(`addDislike() Dislike already exists for ${thought} ${user}`)
-        return res.status(400).json({error: 'Dislike already exists.'})
+        return res.status(400).json({error: 'Dislike already exists'})
     }
 
     const dislike = new Dislikes(req.body);
     dislike.save((err, dislike) => {
         if(err){
             logger.error(`addLike() Failed to add dislike to db. ${err}`)
-            return res.status(400).json({error: 'Failed to add dislike.'})
+            return res.status(400).json({error: 'Failed to add dislike'})
         }
 
         return res.json(dislike);
@@ -200,27 +201,27 @@ export const addHighlight = (req, res) => {
     const user = req.body.user;
 
     if(!thought){
-        logger.error(`addDislike() No thought was passed with the request.`)
-        return res.status(400).json({error: 'Failed to add highlight.'})
+        logger.error(`addHighlight() No thought was passed with the request.`)
+        return res.status(400).json({error: 'Failed to add highlight'})
     }
 
     if(!user){
-        logger.error(`addDislike() No user was passed with the request.`)
-        return res.status(400).json({error: 'Failed to add highlight.'})
+        logger.error(`addHighlight() No user was passed with the request.`)
+        return res.status(400).json({error: 'Failed to add highlight'})
     }
 
     // Check for duplicate
     const duplicate = Highlights.findOne().and([{thought}, {user}]).exec();
     if(duplicate){
-        logger.error(`addHighlight() Highlights already exists for ${thought} ${user}`)
-        return res.status(400).json({error: 'Highlights already exists.'})
+        logger.error(`addHighlight() Highlight already exists for ${thought} ${user}`)
+        return res.status(400).json({error: 'Highlight already exists'})
     }
 
     const highlight = new Highlights(req.body);
     highlight.save((err, highlight) => {
         if(err){
-            logger.error(`addLike() Failed to add highlight to db. ${err}`)
-            return res.status(400).json({error: 'Failed to add highlight.'})
+            logger.error(`addHighlight() Failed to add highlight to db. ${err}`)
+            return res.status(400).json({error: 'Failed to add highlight'})
         }
 
         return res.json(highlight);
@@ -238,9 +239,9 @@ export const removeLike = (req, res) => {
     }
 
     Likes.findByIdAndDelete(like._id)
-        .then((like) => {
+        .then(() => {
 
-            return res.json(like);
+            return res.status(204).send();
         })
         .catch(err => {
             logger.error(`removeLike() Failed to remove like to db. ${err}`)
@@ -254,14 +255,14 @@ export const removeDislike = (req, res) => {
     const dislike = req.body.dislike;
 
     if(!dislike){
-        logger.error(`removeDislike() No thought was passed with the request.`)
+        logger.error(`removeDislike() No dislike was passed with the request.`)
         return res.status(400).json({error: 'Failed to remove dislike.'})
     }
 
     Likes.findByIdAndDelete(dislike._id)
-        .then((dislike) => {
+        .then(() => {
 
-            return res.json(dislike);
+            return res.status(204).send();
         })
         .catch(err => {
             logger.error(`removeDislike() Failed to remove dislike to db. ${err}`)
@@ -275,14 +276,14 @@ export const removeHighlight = (req, res) => {
     const highlight = req.body.highlight;
 
     if(!highlight){
-        logger.error(`removeHighlight() No thought was passed with the request.`)
+        logger.error(`removeHighlight() No highlight was passed with the request.`)
         return res.status(400).json({error: 'Failed to remove highlight.'})
     }
 
     Likes.findByIdAndDelete(highlight._id)
-        .then((highlight) => {
+        .then(() => {
 
-            return res.json(highlight);
+            return res.status(204).send();
         })
         .catch(err => {
             logger.error(`removeHighlight() Failed to remove highlight to db. ${err}`)
