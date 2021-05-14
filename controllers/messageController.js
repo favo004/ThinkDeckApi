@@ -9,7 +9,7 @@ export const getMessages = (req, res) => {
     const sentTo = req.body.sentTo;
     const sentFrom = req.body.sentFrom;
 
-    const query = sentTo ? {sentTo} : sentFrom ? {sentFrom} : null;
+    const query = sentTo ? {sentTo: sentTo} : sentFrom ? {sentFrom: sentFrom} : null;
 
     if(!query){
         logger.error(`getMessages() No data was sent with the response.`)
@@ -18,28 +18,27 @@ export const getMessages = (req, res) => {
 
     Message.find(query)
         .populate(sentTo ? 'sentFrom' : 'sentTo')
-        .then((messages) => {
+        .exec((err, messages) => {
+            if(err){
+                logger.error(`getMessages() Failed to get messages. ${err}`)
+                return res.status(400).json({error: "Failed to get messages"})
+            }
+
             return res.json(messages);
-        })
-        .catch(err => {
-            logger.error(`getMessages() Failed to get messages. ${err}`)
-            return res.status(400).json({error: "Failed to get messages"})
-        })
+        })      
 }
 
-export const addMessage = (req, res) => {
-
-    const message = req.body.message;
+export const addMessage = async (req, res) => {
 
     const newMessage = new Message(req.body.message);
-    newMessage.save()
-        .then(message => {
-            return res.json(message);
-        })
-        .catch(err => {
+    newMessage.save((err, message) => {
+        if(err){
             logger.error(`addMessage() Failed to add message. ${err}`)
             return res.status(400).json({error: "Failed to add message"})
-        })
+        }
+
+        return res.json(message);
+    })
 }
 
 export const updateMessage = (req, res) => {
@@ -55,30 +54,30 @@ export const updateMessage = (req, res) => {
         message._id, 
         message)
         .setOptions({new:true})
-        .then(message => {
+        .exec((err, message) => {
+            if(err){
+                logger.error(`updateMessage() Failed to update message. ${err}`)
+                return res.status(400).json({error: "Failed to update message"})
+            }
+            
             return res.json(message);
-        })
-        .catch(err => {
-            logger.error(`updateMessage() Failed to update message. ${err}`)
-            return res.status(400).json({error: "Failed to update message"})
         })
 }
 
 export const deleteMessage = (req, res) => {
-
-    const message = req.body.message;
-
-    if(!message){
+    
+    if(!req.body.message){
         logger.error(`deleteMessage() No data was sent with the response.`)
         return res.status(400).json({error: "Failed to delete message"})
     }
-
-    Message.findByIdAndDelete(message._id)
-    .then(() => {
+    
+    Message.findByIdAndDelete({_id: req.body.message._id}).exec(err => {
+        if(err){
+            logger.error(`deleteMessage() Failed to delete message. ${err}`)
+            return res.status(400).json({error: "Failed to delete message"})
+        }
+        
         return res.status(204).send();
     })
-    .catch(err => {
-        logger.error(`deleteMessage() Failed to delete message. ${err}`)
-        return res.status(400).json({error: "Failed to delete message"})
-    })
+
 }
