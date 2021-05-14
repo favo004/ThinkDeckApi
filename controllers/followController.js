@@ -10,7 +10,7 @@ export const getFollows = async (req, res) => {
     const page = req.body.page;
 
     // If user is passed with the request we will get the follows otherwise
-    // we will get the user attached to the follow
+    // we will get followers
     const query = req.body.user ? {user: req.body.user} :
                   req.body.follow ? {follow: req.body.follow} :
                   null;
@@ -41,6 +41,23 @@ export const getFollows = async (req, res) => {
 
 export const addFollow = async (req, res) => {
 
+    // Check for self follow
+    if(req.body.follow?.user._id === req.body.follow?.follow._id){
+        logger.info(`addFollow() User and follow were the same. ${req.body.follow?._id}`)
+        return res.status(400).json({error: "User and follow need to be different"});
+    }
+
+    // Check for duplicate follow
+    const duplicate = await Follow.findOne()
+        .and([{user: req.body.follow?.user}, 
+              {follow: req.body.follow?.follow}])
+        .exec();
+
+    if(duplicate){
+        logger.info(`addFollow() duplicate follow was attempted to be added. ${duplicate._id}`)
+        return res.status(400).json({error: "Follow already exists"});
+    }
+
     const follow = new Follow(req.body.follow);
 
     follow.save((err, follow) => {
@@ -57,7 +74,8 @@ export const addFollow = async (req, res) => {
 
 export const deleteFollow = async (req, res) => {
 
-    Follow.findByIdAndDelete(req.body.follow?._id)
+
+    Follow.findByIdAndDelete({_id: req.body.follow?._id })
         .exec((err) => {
             if(err){
                 // Logging
