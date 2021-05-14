@@ -11,7 +11,7 @@ export const MessageSchema = new Schema({
         type: Schema.Types.ObjectId, ref: 'User',
         required: true
     },
-    message: {
+    messageBody: {
         type: String,
         required: true
     },
@@ -25,9 +25,10 @@ export const MessageSchema = new Schema({
 })
 
 MessageSchema.pre('findOneAndUpdate', async function() {
+    
     const doc = await this.model.findOne(this.getFilter());
     doc.editedDate = new Date();
-    console.log(doc)
+
     doc.save((err) => {
         if(err){
             logger.error(`MessageSchema.post('findOneAndUpdate') Error setting editedDate for message ${this.getFilter()}`);
