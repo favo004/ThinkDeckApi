@@ -15,7 +15,7 @@ router.post('/highlights', addHighlight);
 
 // Delete analytics
 router.delete('/likes', removeLike);
-router.delete('/dislies', removeDislike);
+router.delete('/dislikes', removeDislike);
 router.delete('/highlights', removeHighlight);
 
 export default router;
