@@ -76,12 +76,12 @@ export const addThought = async (req, res) => {
     // Check for duplicate thought
     const duplicate = await Thought.findOne()
             .and([{user: req.body.thought.user}, 
-                {thought: req.body.thought.thoughtBody},
+                {thoughtBody: req.body.thought.thoughtBody},
                 {commentTo: req.body.thought.commentTo}])
             .exec();
 
     if(duplicate){
-        logger.info(`addThought duplicate thought was attempted to be added. ${duplicate._id}`)
+        logger.info(`addThought() duplicate thought was attempted to be added. ${duplicate._id}`)
         return res.status(400).json({error: "Thought already exists"});
     }
 
