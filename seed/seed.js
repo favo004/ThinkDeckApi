@@ -11,6 +11,15 @@ require('dotenv').config()
 const User = mongoose.model('User', UserSchema);
 const Thought = mongoose.model('Thought', ThoughtSchema);
 
+connectDb()
+.then(async (connection) => {
+    await deleteCollections();
+    await addData();
+    
+    await connection.close();
+})
+
+
 export const seedDb = async () => {
     deleteCollections()
     .then(() => {
@@ -44,10 +53,14 @@ const addData = async () => {
         thoughts[1].commentTo = t1;
         let t2 = await Thought.create(thoughts[1]);
         let t3 = await Thought.create(thoughts[2]);
+        
+        console.log('Data added...')
     })
     .catch(err => {
         logger.error(`seedData() Error adding data during seeding. ${err}`)
     }) 
+
+    
 }
 
 const seedData = async () => {
