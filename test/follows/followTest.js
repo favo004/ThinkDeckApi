@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import request from 'supertest';
 import { testFollows, testUsers } from '../db';
 import {ObjectId} from 'bson';
+import { createToken } from '../../controllers/authController';
 
 export const followTests = (app) => {
 
@@ -37,9 +38,13 @@ export const followTests = (app) => {
     }
 
     describe('POST /follows', () => {
+
+        const token = createToken(testUsers[2]);
+
         it('Adds new follow - Success', async () => {
             const { body } = await request(app)
                 .post('/follows')
+                .set({Authorization: token})
                 .send(newFollow)
                 .expect(200);
 
@@ -50,6 +55,7 @@ export const followTests = (app) => {
         it('Adds new follow - Fails on duplicate', async () => {
             const { body } = await request(app)
                 .post('/follows')
+                .set({Authorization: token})
                 .send(newFollow)
                 .expect(400);
 
@@ -66,6 +72,7 @@ export const followTests = (app) => {
             }
             const { body } = await request(app)
                 .post('/follows')
+                .set({Authorization: token})
                 .send(selfFollow)
                 .expect(400);
 
@@ -76,8 +83,12 @@ export const followTests = (app) => {
 
     describe('DELETE /follow', () => {
         it('Deletes follow - Success', async () => {
+
+            const token = createToken(testUsers[2]);
+
             const { body } = await request(app)
                 .delete('/follows')
+                .set({Authorization: token})
                 .send(newFollow)
                 .expect(204);
 

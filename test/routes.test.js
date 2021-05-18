@@ -1,8 +1,5 @@
 import express from 'express';
-import { expect } from 'chai';
-import request from 'supertest';
-import { connectDb, seedTestData, testUsers, testThoughts, testLikes, testDislikes, testHighlights } from './db';
-
+import { connectDb, seedTestData } from './db';
 
 import userRoutes from '../routes/userRoutes';
 import thoughtRoutes from '../routes/thoughtRoutes';

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import request from 'supertest';
 import { ObjectId } from 'bson';
 import { testUsers, testThoughts } from '../db';
+import { createToken } from '../../controllers/authController';
 
 
 export const thoughtTests = (app) => {
@@ -9,8 +10,11 @@ export const thoughtTests = (app) => {
     describe('GET /thoughts', () => {
         it('Returns thoughts by user - Success', async () => {
             
+            const token = createToken(testUsers[0]);
+
             const { body } = await request(app)
                 .get('/thoughts')
+                .set({Authorization: token})
                 .send({user: testUsers[0]})
 
             expect(body.error).to.be.undefined;
@@ -19,8 +23,12 @@ export const thoughtTests = (app) => {
         });
 
         it('Returns comments for thought - Success', async () => {
+
+            const token = createToken(testUsers[0]);
+
             const { body } = await request(app)
             .get('/thoughts')
+            .set({Authorization: token})
             .send({commentTo: testThoughts[0]})
 
             expect(body.error).to.be.undefined;
@@ -39,9 +47,12 @@ export const thoughtTests = (app) => {
 
     describe('POST /thoughts', () => {
         it('Adds new thought - Success', async () => {
-            
+
+            const token = createToken(testUsers[0]);
+
             const { body } = await request(app)
                 .post('/thoughts')
+                .set({Authorization: token})
                 .send(thought)
 
             expect(body.error).to.be.undefined;
@@ -51,8 +62,11 @@ export const thoughtTests = (app) => {
 
         it('Adds new thought - Fails on duplicate', async () => {
             
+            const token = createToken(testUsers[0]);
+
             const { body } = await request(app)
                 .post('/thoughts')
+                .set({Authorization: token})
                 .send(thought);
 
             expect(body.error).to.not.be.undefined;
@@ -63,10 +77,13 @@ export const thoughtTests = (app) => {
     describe('PUT /thoughts', () => {
         it('Updates thought - Success', async () => {
 
+            const token = createToken(testUsers[0]);
+
             thought.thought.thoughtBody = "Holy moley this changed!";
 
             const { body } = await request(app)
                 .put('/thoughts')
+                .set({Authorization: token})
                 .send(thought)
 
             expect(body.error).to.be.undefined;
@@ -78,8 +95,11 @@ export const thoughtTests = (app) => {
     describe('DELETE /thoughts', () => {
         it('Deletes thought - Success', async () => {
 
+            const token = createToken(testUsers[0]);
+
             const { body } = await request(app)
                 .delete('/thoughts')
+                .set({Authorization: token})
                 .send(thought)
 
             expect(body.error).to.be.undefined;
@@ -88,8 +108,11 @@ export const thoughtTests = (app) => {
 
         it('Deletes thought - Fail due to not existing', async () => {
 
+            const token = createToken(testUsers[0]);
+            
             const { body } = await request(app)
                 .delete('/thoughts')
+                .set({Authorization: token})
                 .send(thought)
 
             expect(body.error).to.not.be.undefined;

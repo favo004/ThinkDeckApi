@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import request from 'supertest';
+import { createToken } from '../../controllers/authController';
 
 export const userTests = (app) => {
 
@@ -11,7 +12,6 @@ export const userTests = (app) => {
                 
         })
     })
-
 
     const testUser = { 
         "user": 
@@ -34,10 +34,8 @@ export const userTests = (app) => {
             expect(body.error).to.be.undefined;
             expect(body._id).to.not.be.undefined;
 
-        })
-    })
+        });
 
-    describe('POST /users', () => {
         it('Adds new user to db - Fail on duplicate username', async () => {
             testUser.user.email = "testname232@email.com"
             const { body } = await request(app)
@@ -60,7 +58,7 @@ export const userTests = (app) => {
             expect(body.error).to.equal('email already exists');
             expect(body._id).to.be.undefined;
 
-        })
+        });
     })
 
     let updateId = "";
@@ -68,12 +66,15 @@ export const userTests = (app) => {
     describe('PUT /users', () => {
         it('Updates users username - Success', async () => {
             
+            const token = createToken(testUser);
+
             testUser.user._id = updateId;
             testUser.user.username = "testnameV2";
             testUser.user.email = "testname@email.com";
 
             const { body } = await request(app)
                 .put('/users')
+                .set({ Authorization: token })
                 .send(testUser);
 
             expect(body.error).to.be.undefined;
@@ -85,8 +86,12 @@ export const userTests = (app) => {
 
     describe('DELETE /users', () => {
         it('Delete user - Success', async () => {
+
+            const token = createToken(testUser);
+
             const { body } = await request(app)
                 .delete('/users')
+                .set({authorization: token})
                 .send(testUser)  
                 .expect(204)
 
@@ -95,8 +100,11 @@ export const userTests = (app) => {
         });
 
         it('Delete user - Fails on user not existing', async () => {
+            const token = createToken(testUser);
+
             const { body } = await request(app)
                 .delete('/users')
+                .set({authorization: token})
                 .send(testUser)  
                 .expect(400)
 

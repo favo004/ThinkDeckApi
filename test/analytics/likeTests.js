@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import request from 'supertest';
+import { createToken } from '../../controllers/authController';
 import { testUsers, testThoughts } from '../db';
 
 export const likeTests = (app) => {
@@ -25,10 +26,14 @@ export const likeTests = (app) => {
         }
 
         describe('POST /likes', () => {
+            
+            const token = createToken(testUsers[2]);
+
             it('Adds new like - Success', async () => {
 
                 const { body } = await request(app)
                     .post('/likes')
+                    .set({Authorization: token})
                     .send(newLike)
                     .expect(200);
 
@@ -42,6 +47,7 @@ export const likeTests = (app) => {
 
                 const { body } = await request(app)
                     .post('/likes')
+                    .set({Authorization: token})
                     .send(newLike)
                     .expect(400);
 
@@ -53,6 +59,7 @@ export const likeTests = (app) => {
 
                 const { body } = await request(app)
                     .post('/likes')
+                    .set({Authorization: token})
                     .send({
                         thought: testThoughts[2]
                     })
@@ -66,6 +73,7 @@ export const likeTests = (app) => {
 
                 const { body } = await request(app)
                     .post('/likes')
+                    .set({Authorization: token})
                     .send({
                         user: testUsers[2]
                     })
@@ -77,10 +85,14 @@ export const likeTests = (app) => {
         })
 
         describe('Delete /likes', () => {
+
+            const token = createToken(testUsers[2]);
+
             it('Deletes like - Success', async () => {
 
                 const { body } = await request(app)
                     .delete('/likes')
+                    .set({Authorization: token})
                     .send({ like: newLike })
                     .expect(204);
 

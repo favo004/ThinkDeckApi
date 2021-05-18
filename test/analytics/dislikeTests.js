@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import request from 'supertest';
+import { createToken } from '../../controllers/authController';
 import { testUsers, testThoughts } from '../db';
 
 export const dislikeTests = (app) => {
@@ -25,10 +26,14 @@ export const dislikeTests = (app) => {
         }
 
         describe('POST /dislikes', () => {
+
+            const token = createToken(testUsers[1]);
+
             it('Adds new dislikes - Success', async () => {
 
                 const { body } = await request(app)
                     .post('/dislikes')
+                    .set({Authorization: token})
                     .send(newDislike)
                     .expect(200);
 
@@ -42,6 +47,7 @@ export const dislikeTests = (app) => {
 
                 const { body } = await request(app)
                     .post('/dislikes')
+                    .set({Authorization: token})
                     .send(newDislike)
                     .expect(400);
 
@@ -53,6 +59,7 @@ export const dislikeTests = (app) => {
 
                 const { body } = await request(app)
                     .post('/dislikes')
+                    .set({Authorization: token})
                     .send({
                         thought: testThoughts[2]
                     })
@@ -66,6 +73,7 @@ export const dislikeTests = (app) => {
 
                 const { body } = await request(app)
                     .post('/dislikes')
+                    .set({Authorization: token})
                     .send({
                         user: testUsers[2]
                     })
@@ -79,8 +87,11 @@ export const dislikeTests = (app) => {
         describe('Delete /dislikes', () => {
             it('Deletes dislike - Success', async () => {
 
+                const token = createToken(testUsers[1]);
+
                 const { body } = await request(app)
                     .delete('/dislikes')
+                    .set({Authorization: token})
                     .send({ dislike: newDislike })
                     .expect(204);
 

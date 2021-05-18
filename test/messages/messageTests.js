@@ -2,14 +2,19 @@ import { expect } from 'chai';
 import request from 'supertest';
 import { testMessages, testUsers } from '../db';
 import { ObjectId } from 'bson';
+import { createToken } from '../../controllers/authController';
 
 export const messageTests = (app) => {
 
 
     describe('GET /messages', () => {
+
+        const token = createToken(testUsers[0]);
+
         it('Returns messages sent to user - Success', async () => {
             const { body } = await request(app)
                 .get('/messages')
+                .set({Authorization: token})
                 .send({ sentTo: testUsers[0] })
                 .expect(200);
 
@@ -20,6 +25,7 @@ export const messageTests = (app) => {
         it('Returns messages sent from user - Success', async () => {
             const { body } = await request(app)
                 .get('/messages')
+                .set({Authorization: token})
                 .send({ sentFrom: testUsers[0] })
                 .expect(200);
 
@@ -38,9 +44,13 @@ export const messageTests = (app) => {
     }
 
     describe('POST /messages', () => {
+
+        const token = createToken(testUsers[1]);
+
         it('Adds message - Success', async () => {
             const { body } = await request(app)
                 .post('/messages')
+                .set({Authorization: token})
                 .send(newMessage)
                 .expect(200);
 
@@ -51,10 +61,14 @@ export const messageTests = (app) => {
     })
 
     describe('PUT /messages', () => {
+
+        const token = createToken(testUsers[1]);
+
         it('Updates message - Success', async () => {
             newMessage.message.messageBody = "You are a bum 2.0! Woot!"
             const { body } = await request(app)
                 .put('/messages')
+                .set({Authorization: token})
                 .send(newMessage)
                 .expect(200);
 
@@ -67,6 +81,7 @@ export const messageTests = (app) => {
 
             const { body } = await request(app)
                 .put('/messages')
+                .set({Authorization: token})
                 .send()
                 .expect(400);
 
@@ -76,9 +91,13 @@ export const messageTests = (app) => {
     })
 
     describe('DELETE /messages', () => {
+
+        const token = createToken(testUsers[1]);
+
         it('Deletes message - Success', async () => {
             const { body } = await request(app)
                 .delete('/messages')
+                .set({Authorization: token})
                 .send(newMessage)
                 .expect(204);
 
@@ -88,6 +107,7 @@ export const messageTests = (app) => {
         it('Deletes message - Fails on not existing', async () => {
             const { body } = await request(app)
                 .delete('/messages')
+                .set({Authorization: token})
                 .send()
                 .expect(400);
 
