@@ -1,5 +1,6 @@
 import express from 'express';
 import { addDislike, addHighlight, addLike, getDislikes, getHighlights, getLikes, removeDislike, removeHighlight, removeLike } from '../controllers/analyticsController';
+import { verifyToken } from '../controllers/authController';
 
 const router = express.Router();
 
@@ -9,13 +10,13 @@ router.get('/dislikes', getDislikes);
 router.get('/highlights', getHighlights);
 
 // Add analytics
-router.post('/likes', addLike);
-router.post('/dislikes', addDislike);
-router.post('/highlights', addHighlight);
+router.post('/likes', verifyToken, addLike);
+router.post('/dislikes', verifyToken, addDislike);
+router.post('/highlights', verifyToken, addHighlight);
 
 // Delete analytics
-router.delete('/likes', removeLike);
-router.delete('/dislikes', removeDislike);
-router.delete('/highlights', removeHighlight);
+router.delete('/likes', verifyToken, removeLike);
+router.delete('/dislikes', verifyToken, removeDislike);
+router.delete('/highlights', verifyToken, removeHighlight);
 
 export default router;

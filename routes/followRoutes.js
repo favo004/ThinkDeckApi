@@ -1,4 +1,5 @@
 import express from 'express';
+import { verifyToken } from '../controllers/authController';
 import { addFollow, deleteFollow, getFollows } from '../controllers/followController';
 
 const router = express.Router();
@@ -7,9 +8,9 @@ const router = express.Router();
 router.get('/follows', getFollows);
 
 // Add follow
-router.post('/follows', addFollow);
+router.post('/follows', verifyToken, addFollow);
 
 // Delete follow
-router.delete('/follows', deleteFollow);
+router.delete('/follows', verifyToken, deleteFollow);
 
 export default router;

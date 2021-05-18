@@ -1,5 +1,6 @@
 import express from 'express'
-import { createNewUser, deleteUser, getUserById, getUsers, updateUser } from '../controllers/userController';
+import { verifyToken } from '../controllers/authController';
+import { createNewUser, deleteUser, getUserById, getUsers, login, updateUser } from '../controllers/userController';
 
 const router = express.Router();
 
@@ -13,10 +14,12 @@ router.get('/users/:id', getUserById);
 router.post('/users', createNewUser);
 
 // Update user
-router.put('/users', updateUser);
+router.put('/users', verifyToken, updateUser);
 
 // Delete user
-router.delete('/users', deleteUser);
+router.delete('/users', verifyToken, deleteUser);
 
+// Login
+router.post('/login', login);
 
 export default router;
