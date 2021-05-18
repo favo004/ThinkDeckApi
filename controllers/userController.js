@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { encrpytPassword } from './authController';
+import { encrpytPassword, comparePassword, createToken } from './authController';
 
 import { UserSchema } from '../models/userModel';
 import { logger } from '../utils/logger';
@@ -126,4 +126,42 @@ export const deleteUser = async (req, res) => {
 
         return res.status(204).send();
     })
+}
+
+export const login = async (req, res) => {
+
+    const user = req.body.user;
+    // Check if user data was sent with the request
+    if(!user){
+        logger.error(`login() No user data was sent to the server.`);
+        return res.status(400).json({error: "No data was sent to the server"});
+    }
+
+    // Check if username was sent with the request
+    if(!user.username){
+        logger.error(`login() No username was sent to the server.`);
+        return res.status(400).json({error: "Username is required for login"});
+    }
+
+    // Check if password was sent with the request
+    if(!user.password){
+        logger.error(`login() No password was sent to the server.`);
+        return res.status(400).json({error: "Password is required for login"});
+    }
+
+    // Check if user exists in the db
+    const found = await User.findOne({username: new RegExp('\\b' + user.username + '\\b', 'i')}).exec();
+    if(!found){
+        logger.error(`login() Username was not found in db for username ${user.username}`);
+        return res.status(400).json({error: "Username does not exist"});
+    }
+
+    // Check if passwords match
+    if(!comparePassword(user.password, found.password)){
+        return res.status(400).json({error: "Password does not match"});
+    }
+
+    //Login successful, return new token
+    const token = createToken({_id: found._id, username: found.username, email: found.email});
+    return res.status(200).json({token: token});
 }
