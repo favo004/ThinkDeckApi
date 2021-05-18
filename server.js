@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import { connectDb } from './db/db';
-import { seedDb } from './seed/seed';
 
 import { logger } from './utils/logger';
 
@@ -16,8 +15,6 @@ require('dotenv').config()
 const app = express();
 const port = process.env.PORT || 3002;
 const host = process.env.HOST || 'localhost'
-
-const seeding = false;
 
 app.use(cors());
 app.use(express.json());
@@ -51,10 +48,6 @@ app.use(analyticsRoutes);
 app.use(messageRoutes);
 
 connectDb().then(async() => {
-    if(seeding){
-        seedDb();
-    }
-
     app.listen(port, () => {
         console.log(`Listening on port ${port}`);
         //logger.info(`Server started and running on http://${host}:${port}`)
