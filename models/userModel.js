@@ -118,7 +118,3 @@ UserSchema.pre('findOneAndDelete', function() {
         logger.info(`UserSchema.pre('findOneAndDelete') called successfully`)
     ])
 })
-
-UserSchema.methods.comparePassword = (password, hashPassword) => {
-    return bcrypt.compareSync(password, hashPassword);
-}
