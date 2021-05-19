@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
+import fs from 'fs';
+import shortid from 'shortid';
 import { encrpytPassword, comparePassword, createToken } from './authController';
 
 import { UserSchema } from '../models/userModel';
 import { logger } from '../utils/logger';
-import { GetUserPostErrorMessage } from '../utils/helpers';
+import { GetUserPostErrorMessage, imageFilter } from '../utils/helpers';
 
 const User = mongoose.model('User', UserSchema);
 
@@ -164,4 +166,88 @@ export const login = async (req, res) => {
     //Login successful, return new token
     const token = createToken({_id: found._id, username: found.username, email: found.email});
     return res.status(200).json({token: token});
+}
+
+export const uploadUserImage = async (req, res) => {
+    console.log(req.files)
+    if(!req.files){
+        logger.error(`uploadUserImage() No file was uploaded to server.`)
+        return res.status(400).json({error: "No file was uploaded"})
+    }
+
+    const file = !req.files.imageUrl ? req.files.themeUrl : req.files.imageUrl;
+
+    if(!file){
+        logger.error(`uploadUserImage() No image was uploaded to server.`)
+        return res.status(400).json({error: "No image was uploaded"})
+    }
+
+    const user = await User.findOne({_id: req.authorizedUser._id}).exec();
+
+    if(!user){
+        logger.error(`uploadUserImage() Could not get user data. ${err}`);
+        return res.status(400).json({error: "Error uploading image."})
+    }
+
+    const basePath = './uploads/';
+    const filePath = shortid.generate() + '.' + file.name.split('.').pop();
+
+    file.mv(basePath + filePath, (err) => {
+        if(err){
+            logger.error(`uploadUserImage() Failed to upload new image for user ${user._id}. ${err}`);
+            return res.status(400).json({error: "Error uploading image."})
+        }
+
+        // Remove existing files
+        if(req.files.imageUrl){
+            if(user.imageUrl){
+                const existingPath = basePath + user.imageUrl;
+                fs.unlink(existingPath, (err) => {
+                    if(err){
+                        logger.error(`uploadUserImage() Error deleting existing userImage from ${user._id}. ${err}`)
+                    }
+                })
+            }
+
+            user.imageUrl = filePath;
+            console.log(user)
+            user.save((err) => {
+                if (err) {
+                    logger.error(`uploadUserImage() Failed to save userImage to user data. ${err}`);
+                    return res.status(400).json({error: "Failed to upload image."})
+                }
+
+                return res.status(204).send();
+            })
+
+        }
+
+        if(req.files.themeUrl){
+            if(user.themeUrl){
+                const existingPath = basePath + user.themeUrl;
+                fs.unlink(existingPath, (err) => {
+                    if(err){
+                        logger.error(`uploadUserImage() Error deleting existing userTheme from ${user._id}. ${err}`)
+                    }
+                })
+            }
+
+            user.themeUrl = filePath;
+            user.save((err) => {
+                if (err) {
+                    logger.error(`uploadUserImage() Failed to save userImage to user data. ${err}`);
+                    return res.status(400).json({error: "Failed to upload image."})
+                }
+
+                return res.status(204).send();
+            })
+        }
+
+        
+
+
+    })
+
+
+
 }
