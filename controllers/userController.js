@@ -169,7 +169,7 @@ export const login = async (req, res) => {
 }
 
 export const uploadUserImage = async (req, res) => {
-    console.log(req.files)
+
     if(!req.files){
         logger.error(`uploadUserImage() No file was uploaded to server.`)
         return res.status(400).json({error: "No file was uploaded"})
@@ -182,8 +182,14 @@ export const uploadUserImage = async (req, res) => {
         return res.status(400).json({error: "No image was uploaded"})
     }
 
-    const user = await User.findOne({_id: req.authorizedUser._id}).exec();
+    // Check if file is an image
+    if(!imageFilter(file.name)){
+        logger.error(`uploadUserImage() Invalid file format. ${file.name}`)
+        return res.status(400).json({error: "File uploaded was not an image."})
+    }
 
+    // Get user data
+    const user = await User.findOne({_id: req.authorizedUser._id}).exec();
     if(!user){
         logger.error(`uploadUserImage() Could not get user data. ${err}`);
         return res.status(400).json({error: "Error uploading image."})
@@ -192,13 +198,19 @@ export const uploadUserImage = async (req, res) => {
     const basePath = './uploads/';
     const filePath = shortid.generate() + '.' + file.name.split('.').pop();
 
+    // Make uploads directory if it doesn't exist
+    if(!fs.existsSync(basePath)){
+        fs.mkdirSync(basePath);
+    }
+
+    // Save upload
     file.mv(basePath + filePath, (err) => {
         if(err){
             logger.error(`uploadUserImage() Failed to upload new image for user ${user._id}. ${err}`);
             return res.status(400).json({error: "Error uploading image."})
         }
 
-        // Remove existing files
+        // Update user image
         if(req.files.imageUrl){
             if(user.imageUrl){
                 const existingPath = basePath + user.imageUrl;
@@ -222,6 +234,7 @@ export const uploadUserImage = async (req, res) => {
 
         }
 
+        // Update user theme
         if(req.files.themeUrl){
             if(user.themeUrl){
                 const existingPath = basePath + user.themeUrl;
@@ -247,7 +260,4 @@ export const uploadUserImage = async (req, res) => {
 
 
     })
-
-
-
 }
