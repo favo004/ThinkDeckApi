@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 import { connectDb } from './db/db';
 
 import { logger } from './utils/logger';
@@ -19,6 +20,7 @@ const host = process.env.HOST || 'localhost'
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(fileUpload())
 
 // Requests
 app.use((req, res, next) => {
