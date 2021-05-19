@@ -35,6 +35,7 @@ export const verifyToken = (req, res, next) => {
                     return res.status(403).json({error:"Unauthorized"})
                 }
                 else{
+                    req.authorizedUser = decoded;
                     next();
                 }
             })
