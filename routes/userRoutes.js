@@ -1,6 +1,6 @@
-import express from 'express'
+import express from 'express';
 import { verifyToken } from '../controllers/authController';
-import { createNewUser, deleteUser, getUserById, getUsers, login, updateUser } from '../controllers/userController';
+import { createNewUser, deleteUser, getUserById, getUsers, login, updateUser, uploadUserImage } from '../controllers/userController';
 
 const router = express.Router();
 
@@ -21,5 +21,8 @@ router.delete('/users', verifyToken, deleteUser);
 
 // Login
 router.post('/login', login);
+
+// Upload user image
+router.post('/upload/image', verifyToken, uploadUserImage);
 
 export default router;
